@@ -1,10 +1,17 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\KaprodiController;
+use App\Http\Controllers\TataUsahaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('layouts.starter');
+});
+
+Route::get('/superadmin', function () {
+    return view('superadmin.index');
 });
 
 
