@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     protected $table = 'role';
-
     protected $primaryKey = 'id';
-
-    protected $fillable = [id, 'nama'];
-
-    protected $keyType = 'int';
-    
+    protected $fillable = ['id', 'nama'];
+    protected $keyType = 'int'; 
     public $incrementing = true;
 
+    public function roleUser(){
+        return $this->hasMany(User::class);
+    }
 }

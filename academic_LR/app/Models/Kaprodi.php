@@ -12,7 +12,11 @@ class Kaprodi extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    public function userKaprodi() {
+    public function kaprodiUser() {
         return $this->hasOne(User::class, 'user_id');
+    }
+
+    public function kaprodiProdi(){
+        return $this->hasOne(Prodi::class, 'prodi_id');
     }
 }
