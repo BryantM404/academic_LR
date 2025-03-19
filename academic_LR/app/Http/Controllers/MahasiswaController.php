@@ -15,6 +15,22 @@ class MahasiswaController extends Controller
         return(view('mahasiswa.index'));
     }
 
+    public function form()
+    {
+        return(view('mahasiswa.form'));
+    }
+
+    public function forms(Request $request)
+    {
+        return view('mahasiswa.forms')
+            ->with('jenisSurat', $request->input('jenisSurat_id'));
+    }   
+
+    // $data = $request->all();
+    // return $request;
+    // return(redirect(route('mahasiswa.form')));
+    // return(view('mahasiswa.forms', compact('data')));
+
     /**
      * Show the form for creating a new resource.
      */

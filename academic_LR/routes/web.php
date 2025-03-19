@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KaprodiController;
 use App\Http\Controllers\TataUsahaController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,14 @@ Route::get('/', function () {
 Route::get('/superadmin', [UserController::class, 'index'])->name('userList');
 Route::get('/superadmin/create', [UserController::class, 'create'])->name('userCreate');
 Route::post('/superadmin', [UserController::class, 'store'])->name('userStore');
+
+
+/* Mahasiswa Controller*/
+Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswaIndex');
+Route::get('/mahasiswa/form', [MahasiswaController::class, 'form'])->name('mahasiswaForm');
+Route::post('/mahasiswa/form', [MahasiswaController::class, 'forms'])->name('mahasiswaForms');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
