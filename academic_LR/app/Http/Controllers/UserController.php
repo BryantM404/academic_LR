@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    
     public function index()
     {
-        //
+        return (view('superadmin.index')
+        ->with('users', User::all()));
     }
 
     /**
@@ -20,21 +24,40 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all(); // Ambil semua role
+        return view('superadmin.create', compact('roles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        // $request->validate([
+        //     'username' => 'required|string|max:255|unique:users,username',
+        //     'password' => 'required|string|min:6',
+        //     'role_id' => 'required|exists:roles,id' // Pastikan role_id valid
+        // ]);
+
+        $validatedData = validator($request->all(),[
+            'username' => 'required|string|max:7|unique:user,username',
+            'password' => 'required|string|max:100',
+            'role_id' => 'required|exists:role,id',
+        ])->validate();
+
+        DB::statement("CALL SPInsertUser(?, ?, ?)", [
+            $validatedData['username'],
+            $validatedData['password'],
+            $validatedData['role_id']
+        ]);
+
+        return redirect(route('userList'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Superadmin $superadmin)
+    public function show(User $user)
     {
         //
     }
@@ -42,7 +65,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Superadmin $superadmin)
+    public function edit(User $user)
     {
         //
     }
@@ -50,7 +73,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Superadmin $superadmin)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -58,7 +81,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Superadmin $superadmin)
+    public function destroy(User $user)
     {
         //
     }

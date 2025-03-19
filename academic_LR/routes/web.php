@@ -10,10 +10,14 @@ Route::get('/', function () {
     return view('layouts.starter');
 });
 
-Route::get('/superadmin', function () {
-    return view('superadmin.index');
-});
+// Route::get('/superadmin', function () {
+//     return view('superadmin.index');
+// });
 
+
+Route::get('/superadmin', [UserController::class, 'index'])->name('userList');
+Route::get('/superadmin/create', [UserController::class, 'create'])->name('userCreate');
+Route::post('/superadmin', [UserController::class, 'store'])->name('userStore');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

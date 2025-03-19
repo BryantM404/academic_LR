@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Role extends Model
 {
     protected $table = 'role';
@@ -13,6 +14,6 @@ class Role extends Model
     public $incrementing = true;
 
     public function roleUser(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'id', 'id_role');
     }
 }

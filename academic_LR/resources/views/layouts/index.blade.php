@@ -13,6 +13,7 @@
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="{{ asset('vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/ti-icons/css/themify-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('../../vendors/mdi/css/materialdesignicons.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('js/select.dataTables.min.css') }}">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
@@ -54,7 +55,7 @@
   <script src="{{ asset('vendors/chart.js/Chart.min.js') }}"></script>
   <script src="{{ asset('vendors/datatables.net/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
-  <script src="js/dataTables.select.min.js"></script>
+  <script src="{{ asset('js/dataTables.select.min.js') }}"></script>
 
   <!-- End plugin js for this page -->
   <!-- inject:js -->

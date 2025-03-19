@@ -13,7 +13,7 @@ class User extends Model
     public $incrementing = false;
 
     public function userRole() {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
     public function userMahasiswa(){
