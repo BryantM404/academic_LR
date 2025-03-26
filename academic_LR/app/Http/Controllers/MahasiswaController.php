@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
+use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -30,6 +31,12 @@ class MahasiswaController extends Controller
     // return $request;
     // return(redirect(route('mahasiswa.form')));
     // return(view('mahasiswa.forms', compact('data')));
+
+    public function pengajuan()
+    {
+        return(view('mahasiswa.pengajuan') 
+            ->with('pengajuans', Pengajuan::all()));
+    } 
 
     /**
      * Show the form for creating a new resource.

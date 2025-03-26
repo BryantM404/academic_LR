@@ -8,7 +8,7 @@ use App\Http\Controllers\TataUsahaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('layouts.starter');
+    return view('auth.login');
 });
 
 // Route::get('/superadmin', function () {
@@ -25,6 +25,8 @@ Route::post('/superadmin/create/forms/{role}/{user}', [KaprodiController::class,
 Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswaIndex');
 Route::get('/mahasiswa/form', [MahasiswaController::class, 'form'])->name('mahasiswaForm');
 Route::post('/mahasiswa/form', [MahasiswaController::class, 'forms'])->name('mahasiswaForms');
+Route::get('/mahasiswa/pengajuan', [MahasiswaController::class, 'pengajuan'])->name('mahasiswaPengajuan');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
