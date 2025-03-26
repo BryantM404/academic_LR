@@ -25,14 +25,13 @@
                     @csrf
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="Name" required autofocus>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Name" required readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                     </div>
-                    {{-- <pre>{{ print_r($roles) }}</pre> --}}
 
                     <div class="form-group">
                         <label class="">Role</label>

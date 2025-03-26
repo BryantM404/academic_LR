@@ -15,18 +15,16 @@ Route::get('/', function () {
 //     return view('superadmin.index');
 // });
 
-
 Route::get('/superadmin', [UserController::class, 'index'])->name('userList');
 Route::get('/superadmin/create', [UserController::class, 'create'])->name('userCreate');
-Route::post('/superadmin', [UserController::class, 'store'])->name('userStore');
-
+Route::post('/superadmin/create', [UserController::class, 'store'])->name('userStore');
+Route::get('/superadmin/create/forms/{role}/{user}', [UserController::class, 'forms'])->name('userCreateForms');
+Route::post('/superadmin/create/forms/{role}/{user}', [KaprodiController::class, 'store'])->name('kaprodiStore');
 
 /* Mahasiswa Controller*/
 Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswaIndex');
 Route::get('/mahasiswa/form', [MahasiswaController::class, 'form'])->name('mahasiswaForm');
 Route::post('/mahasiswa/form', [MahasiswaController::class, 'forms'])->name('mahasiswaForms');
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');

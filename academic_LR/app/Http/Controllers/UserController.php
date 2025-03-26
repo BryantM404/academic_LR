@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -47,11 +49,43 @@ class UserController extends Controller
 
         DB::statement("CALL SPInsertUser(?, ?, ?)", [
             $validatedData['username'],
-            $validatedData['password'],
+            Hash::make($validatedData['password']),
             $validatedData['role_id']
         ]);
 
-        return redirect(route('userList'));
+        // ini method untuk mendapatkan user id yang akan dikirim ke page selanjutnya
+        $newUser = DB::table('user')->where('username', $validatedData['username'])->first();
+    
+        if (!$newUser) {
+            return redirect()->route('userCreate')->with('error', 'Gagal mendapatkan User ID');
+        }
+
+        // return redirect()->route('userCreateForms');
+        return redirect()->route('userCreateForms', ['role' => $validatedData['role_id'], 'user' => $newUser->id]);
+
+        // return view('/superadmin/create/forms')
+        //     ->with('idRole', $request->input('role_id'));
+
+    }
+
+    public function forms($role, $user)
+    {
+        // return view('mahasiswa.forms')
+        //     ->with('jenisSurat', $request->input('jenisSurat_id'));
+        // return view('superadmin.forms')
+        //     ->with('idRole', $request->input('role_id'));
+
+        $roleData = Role::find($role);
+        $userData = DB::table('user')->where('id', $user)->first();
+        
+        if (!$roleData) {
+            return redirect()->route('userCreate')->with('error', 'Role tidak ditemukan!');
+        }
+
+        // Ambil semua prodi
+        $prodis = Prodi::all(); 
+    
+        return view('superadmin.forms', compact('roleData', 'userData', 'prodis'));
     }
 
     /**

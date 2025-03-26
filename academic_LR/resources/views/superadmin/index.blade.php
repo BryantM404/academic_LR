@@ -19,7 +19,17 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Users List</h4>
+                  
+                  <div class="d-flex justify-content-between col-md-12">
+                    <h3 class="">Users List</h3>
+                    <div class="justify-content-between d-flex">
+                      <a class="btn btn-primary btn-rounded btn-fw d-flex align-items-center " href="{{ route('userCreate') }}">
+                         Insert User
+                      </a>
+                      {{-- <button type="button" class="btn btn-primary btn-rounded btn-fw" href="{{ route('userCreate') }}">Insert User</button> --}}
+                    </div>
+                  </div>
+                  
                   <div class="table-responsive">
                     <table class="table table-striped table-hover" >
                       <thead>
@@ -61,19 +71,20 @@
                                 <button type="button" class="btn btn-inverse-warning btn-fw btn-sm d-flex align-items-center btn-rounded">
                                   <i class="mdi mdi-pencil icon-sm"></i> <span class="px-1">edit</span>
                                 </button>
-                              </div>
-                              <div class="col=3">
-                                <button type="button" class="btn btn-inverse-danger btn-fw btn-sm d-flex align-items-center btn-rounded"  data-bs-toggle="modal" data-bs-target="#deleteUser">
+                                <button type="button" class="btn btn-inverse-danger btn-fw btn-sm d-flex align-items-center btn-rounded" data-bs-toggle="modal" data-bs-target="#deleteUser">
                                   <i class="mdi mdi-eraser icon-sm"></i> <span class="px-1">delete</span>
                                 </button>
                               </div>
+                              <div class="col=3">
+                                
+                              </div>
                             </div>
-          
+
                             <div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                                    <h1 class="modal-title fs-1" id="exampleModalLabel">Delete</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
@@ -86,7 +97,6 @@
                                 </div>
                               </div>
                             </div>
-
                             
                 
                             {{-- <div class="col-sm-6 col-md-4 col-lg-3 ">
