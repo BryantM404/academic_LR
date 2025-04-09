@@ -6,9 +6,13 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Prodi;
 use App\Models\Pengajuan;
+use App\Models\Kaprodi;
+use App\Models\TataUsaha;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -18,8 +22,11 @@ class UserController extends Controller
     
     public function index()
     {
-        return (view('superadmin.index')
-        ->with('users', User::all()));
+        // return (view('superadmin.index')
+        // ->with('users', User::all()));
+
+        $users = User::with(['userRole', 'userKaprodi', 'userTataUsaha', 'userMahasiswa'])->get();
+        return view('superadmin.index', compact('users'));
     }
 
     /**
@@ -61,32 +68,21 @@ class UserController extends Controller
             return redirect()->route('userCreate')->with('error', 'Gagal mendapatkan User ID');
         }
 
-        // return redirect()->route('userCreateForms');
-        return redirect()->route('userCreateForms', ['role' => $validatedData['role_id'], 'user' => $newUser->id]);
-
-        // return view('/superadmin/create/forms')
-        //     ->with('idRole', $request->input('role_id'));
-
+        return redirect()->route('userCreateForms', [
+            'role' => $validatedData['role_id'],
+            'user' => $newUser->id
+        ]);
     }
 
     public function forms($role, $user)
     {
-        // return view('mahasiswa.forms')
-        //     ->with('jenisSurat', $request->input('jenisSurat_id'));
-        // return view('superadmin.forms')
-        //     ->with('idRole', $request->input('role_id'));
 
-        $roleData = Role::find($role);
-        $userData = DB::table('user')->where('id', $user)->first();
-        
-        if (!$roleData) {
-            return redirect()->route('userCreate')->with('error', 'Role tidak ditemukan!');
-        }
+        $roleData = Role::findOrFail($role);
+        $user = User::findOrFail($user);
 
         // Ambil semua prodi
         $prodis = Prodi::all(); 
-    
-        return view('superadmin.forms', compact('roleData', 'userData', 'prodis'));
+        return view('superadmin.forms', compact('roleData', 'user', 'prodis'));
     }
 
     /**
@@ -100,25 +96,79 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(string $id)
     {
-        //
+        $user = User::find($id);
+        if ($user == null) {
+            return back()->withErrors(['err_msg' => 'User not found!']);
+        }
+        return view('superadmin.edit')
+            ->with('roles', Role::all())
+            ->with('users', $user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+        if ($user == null) {
+            return back()->withErrors(['err_msg' => 'User not found!']);
+        }
+        $validatedData = validator($request->all(),[
+            'username' => ['required', 'string', 'max:7', Rule::unique('user', 'username')->ignore($user->username, 'username')],
+            'password' => ['required', 'string', 'max:100'],
+            'role_id' => ['required', 'exists:role,id']
+        ])->validate();
+
+        DB::statement("CALL SPEditUser(?, ?, ?)", [
+            $id,
+            $validatedData['username'],
+            Hash::make($validatedData['password']),
+        ]);
+
+        // ini method untuk mendapatkan user id yang akan dikirim ke page selanjutnya
+    
+        return redirect()->route('userEditForms', [
+            'role' => $validatedData['role_id'],
+            'user' => $id
+        ]);
+    }
+
+    public function editForms($role, $user)
+    {
+
+        $roleData = Role::findOrFail($role);
+        $user = User::findOrFail($user);
+
+        // Ambil semua prodi
+        $prodis = Prodi::all(); 
+        return view('superadmin.editForms', compact('roleData', 'user', 'prodis'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user, string $id)
     {
-        //
+
+        // $user = User::findOrFail($id);
+        // $user->delete();
+
+        // return redirect()->route('userList')->with('success', 'User berhasil dihapus.');
+        Kaprodi::where('user_id', $id)->delete();
+        TataUsaha::where('user_id', $id)->delete();
+        Mahasiswa::where('user_id', $id)->delete();
+
+        $user = User::find($id);
+        if ($user == null) {
+            return back()->withErrors(['err_msg' => 'user not found!']);
+        }
+
+        $user->delete();
+        return redirect()->route('userList')
+            ->with('status', 'user successfully deleted!');
     }
 
     public function dashboard()

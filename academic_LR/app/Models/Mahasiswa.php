@@ -14,7 +14,7 @@ class Mahasiswa extends Model
     public $timestamps = false;
 
     public function mahasiswaProdi(){
-        return $this->belongsTo(Prodi::class, 'user_id');
+        return $this->belongsTo(Prodi::class, 'prodi_id');
     }
 
     public function mahasiswaPengajuan(){
