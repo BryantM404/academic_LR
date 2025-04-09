@@ -19,7 +19,6 @@ class UserRole
         if(Auth::user() != null && in_array(Auth::user()->role_id, $roles)){
             return $next($request);
         }
-
         return response(view('unauthorized'));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Prodi;
+use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -119,4 +120,12 @@ class UserController extends Controller
     {
         //
     }
+
+    public function dashboard()
+    {
+        return view('layouts.starter')
+            ->with('pengajuans', Pengajuan::all());
+    }
+
+
 }

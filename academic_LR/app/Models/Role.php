@@ -12,6 +12,7 @@ class Role extends Model
     protected $fillable = ['id', 'nama'];
     protected $keyType = 'int'; 
     public $incrementing = true;
+    public $timestamps = false;
 
     public function roleUser(){
         return $this->hasMany(User::class, 'id', 'id_role');

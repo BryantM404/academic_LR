@@ -11,7 +11,8 @@ class Pengajuan extends Model
     protected $fillable = ['id', 'tanggalPengajuan', 'dokumen', 'keterangan', 'mahasiswa_nrp', 'statusPengajuan_id', 'jenisSurat_id'];
     protected $keyType = "string";
     public $incrementing = false;
-
+    public $timestamps = false;
+    
     public function pengajuanMahasiswa(){
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_nrp');
     }

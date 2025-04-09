@@ -47,7 +47,19 @@
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <a href="#" class="auth-link text-black">Forgot password?</a>
                 </div>
+                
+                
               </form>
+              {{-- @if ($errors->any())
+                <div style="color: red;">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif --}}
+              
             </div>
           </div>
         </div>

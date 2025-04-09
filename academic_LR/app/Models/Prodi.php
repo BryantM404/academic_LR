@@ -11,6 +11,7 @@ class Prodi extends Model
     protected $fillable = ['id', 'nama'];
     protected $keyType = "string";
     public $incrementing = false;
+    public $timestamps = false;
 
     public function prodiMahasiswa(){
         return $this->HasMany(Mahasiswa::class);

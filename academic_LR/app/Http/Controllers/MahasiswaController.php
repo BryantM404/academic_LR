@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisSurat;
 use App\Models\Mahasiswa;
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class MahasiswaController extends Controller
 
     public function form()
     {
-        return(view('mahasiswa.form'));
+        return(view('mahasiswa.form'))
+            ->with('jenisSurats', JenisSurat::all());
     }
 
     public function forms(Request $request)
@@ -26,17 +28,6 @@ class MahasiswaController extends Controller
         return view('mahasiswa.forms')
             ->with('jenisSurat', $request->input('jenisSurat_id'));
     }   
-
-    // $data = $request->all();
-    // return $request;
-    // return(redirect(route('mahasiswa.form')));
-    // return(view('mahasiswa.forms', compact('data')));
-
-    public function pengajuan()
-    {
-        return(view('mahasiswa.pengajuan') 
-            ->with('pengajuans', Pengajuan::all()));
-    } 
 
     /**
      * Show the form for creating a new resource.

@@ -8,7 +8,7 @@
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                        <h2 class="font-weight-bold">Create Users</h2>
+                        <h3 class="font-weight-bold">Create Users</h3>
                         <h4 class="font-weight-normal mb-0"><span class="text-primary">Kepala Program Studi</span></h4>
                     </div>
                 </div>
