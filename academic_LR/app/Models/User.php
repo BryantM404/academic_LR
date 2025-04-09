@@ -35,8 +35,8 @@ class User extends Authenticable
         return $this->hasOne(Mahasiswa::class);
     }
 
-    public function userProdi(){
-        return $this->hasOne(Prodi::class);
+    public function userKaprodi(){
+        return $this->hasOne(Kaprodi::class);
     }
 
     public function userTataUsaha(){

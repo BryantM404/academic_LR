@@ -17,6 +17,7 @@ class Kaprodi extends Model
     }
 
     public function kaprodiProdi(){
-        return $this->hasOne(Prodi::class, 'prodi_id');
+        return $this->belongsTo(Prodi::class, 'prodi_id', 'id');
+        
     }
 }

@@ -30,7 +30,7 @@ class KaprodiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $role, $user)
+    public function store(Request $request, $user)
     {
         $validatedData = validator($request->all(),[
             'nama' => 'required|string|max:45',
@@ -50,6 +50,32 @@ class KaprodiController extends Controller
             $validatedData['tanggalLahir'],
             $validatedData['prodi_id'],
             $validatedData['user_id']
+        ]);
+
+        return redirect()->route('userList');
+
+    }
+
+    public function updateStore(Request $request, $user)
+    {
+        $validatedData = validator($request->all(),[
+            'nama' => ['required', 'string', 'max:45'],
+            'email' => ['required', 'string', 'max:45'],
+            'alamat' => ['required', 'string', 'max:75'],
+            'noTelp' => ['required', 'string', 'max:20'],
+            'tanggalLahir' => ['required', 'date', 'max:45'],
+            'prodi_id' => ['required', 'exists:prodi,id'],
+            'user_id' => ['required', 'exists:user,id']
+        ])->validate();
+
+        DB::statement("CALL SPEditKaprodi(?, ?, ?, ?, ?, ?, ?)", [
+            $user,
+            $validatedData['nama'],
+            $validatedData['email'],
+            $validatedData['alamat'],
+            $validatedData['noTelp'],
+            $validatedData['tanggalLahir'],
+            $validatedData['prodi_id'],
         ]);
 
         return redirect()->route('userList');
