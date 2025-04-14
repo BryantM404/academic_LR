@@ -18,7 +18,7 @@
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card tale-bg">
                 <div class="card-people mt-auto">
-                  <img src="images/dashboard/people.svg" alt="people">
+                  <img src="{{ asset('images/dashboard/people.svg') }}" alt="people">
                   <div class="weather-info">
                     <div class="d-flex">
                       <div>
@@ -33,6 +33,23 @@
                 </div>
               </div>
             </div>
+            
+            <form action="{{ route('searchSA') }}" method="get" class="mb-3 col-lg-12 grid-margin stretch-card" >
+              <div class="input-group rounded-4 overflow-hidden ">
+                <span class="input-group-text bg-white rounded-start-4">
+                  <i class="bi bi-search text-muted"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control border-start-0" 
+                  name="search" 
+                  placeholder="Search username, etc." 
+                  value="{{ $search ?? '' }}"
+                >
+                <button class="btn btn-primary" type="submit">Cari</button>
+              </div>
+            </form>
+
             <!-- Table  -->
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
@@ -58,6 +75,9 @@
                             USERNAME
                           </th>
                           <th>
+                            NAME
+                          </th>
+                          <th>
                             ROLE
                           </th>
                           <th>
@@ -77,7 +97,9 @@
                           <td>
                             {{ $user->username}}
                           </td>
-                
+                          <td>
+                            {{ $user->userKaprodi->nama ?? $user->userTataUsaha->nama ?? $user->userMahasiswa->nama ?? '-' }}
+                          </td>
                           <td>
                             {{ $user->userRole->role_id}} {{ $user->userRole->nama }}
                           </td>
@@ -149,31 +171,41 @@
                                   </div>
                                   <div class="modal-body">
                                     @if ($user->userRole->id == 2)
-                                      <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"><strong>Nama:</strong> {{ $user->userKaprodi->nama }}</li>
-                                        <li class="list-group-item"><strong>Email:</strong> {{ $user->userKaprodi->email }}</li>
-                                        <li class="list-group-item"><strong>Alamat:</strong> {{ $user->userKaprodi->alamat }}</li>
-                                        <li class="list-group-item"><strong>No Telepon:</strong> {{ $user->userKaprodi->noTelp }}</li>
-                                        <li class="list-group-item"><strong>Tanggal Lahir:</strong> {{ $user->userKaprodi->tanggalLahir }}</li>
-                                        <li class="list-group-item"><strong>Program Studi:</strong> {{ $user->userKaprodi->kaprodiProdi->nama ?? '-' }}</li>
-                                      </ul>
+                                      @if ($user->userKaprodi)
+                                        <ul class="list-group list-group-flush">
+                                          <li class="list-group-item"><strong>Nama:</strong> {{ $user->userKaprodi->nama }}</li>
+                                          <li class="list-group-item"><strong>Email:</strong> {{ $user->userKaprodi->email }}</li>
+                                          <li class="list-group-item"><strong>Alamat:</strong> {{ $user->userKaprodi->alamat }}</li>
+                                          <li class="list-group-item"><strong>No Telepon:</strong> {{ $user->userKaprodi->noTelp }}</li>
+                                          <li class="list-group-item"><strong>Tanggal Lahir:</strong> {{ $user->userKaprodi->tanggalLahir }}</li>
+                                          <li class="list-group-item"><strong>Program Studi:</strong> {{ $user->userKaprodi->kaprodiProdi->nama ?? '-' }}</li>
+                                        </ul>
+                                      @endif
+                                      
 
                                     @elseif ($user->userRole->id == 3)
-                                      <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"><strong>Nama:</strong> {{ $user->userTataUsaha->nama }}</li>
-                                        <li class="list-group-item"><strong>Program Studi:</strong> {{ $user->userTataUsaha->tataUsahaProdi->nama ?? '-' }}</li>
-                                      </ul>
+                                      @if ($user->userTataUsaha)
+                                        <ul class="list-group list-group-flush">
+                                          <li class="list-group-item"><strong>Nama:</strong> {{ $user->userTataUsaha->nama }}</li>
+                                          <li class="list-group-item"><strong>Program Studi:</strong> {{ $user->userTataUsaha->tataUsahaProdi->nama ?? '-' }}</li>
+                                        </ul>
+                                      @endif
+                                    
 
                                     @elseif ($user->userRole->id == 4)
-                                      <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"><strong>NRP:</strong> {{ $user->userMahasiswa->nrp }}</li>
-                                        <li class="list-group-item"><strong>Nama:</strong> {{ $user->userMahasiswa->nama }}</li>
-                                        <li class="list-group-item"><strong>Email:</strong> {{ $user->userMahasiswa->email }}</li>
-                                        <li class="list-group-item"><strong>Alamat:</strong> {{ $user->userMahasiswa->alamat }}</li>
-                                        <li class="list-group-item"><strong>No Telepon:</strong> {{ $user->userMahasiswa->noTelp }}</li>
-                                        <li class="list-group-item"><strong>Tanggal Lahir:</strong> {{ $user->userMahasiswa->tanggalLahir }}</li>
-                                        <li class="list-group-item"><strong>Program Studi:</strong> {{ $user->userMahasiswa->mahasiswaProdi->nama ?? '-' }}</li>
-                                      </ul>
+                                      @if ($user->userMahasiswa)
+                                        <ul class="list-group list-group-flush">
+                                          <li class="list-group-item"><strong>NRP:</strong> {{ $user->userMahasiswa->nrp }}</li>
+                                          <li class="list-group-item"><strong>Nama:</strong> {{ $user->userMahasiswa->nama }}</li>
+                                          <li class="list-group-item"><strong>Email:</strong> {{ $user->userMahasiswa->email }}</li>
+                                          <li class="list-group-item"><strong>Alamat:</strong> {{ $user->userMahasiswa->alamat }}</li>
+                                          <li class="list-group-item"><strong>No Telepon:</strong> {{ $user->userMahasiswa->noTelp }}</li>
+                                          <li class="list-group-item"><strong>Tanggal Lahir:</strong> {{ $user->userMahasiswa->tanggalLahir }}</li>
+                                          <li class="list-group-item"><strong>Program Studi:</strong> {{ $user->userMahasiswa->mahasiswaProdi->nama ?? '-' }}</li>
+                                        </ul>
+                                      @else
+                                        <div class="alert alert-warning">Data detail tidak tersedia untuk pengguna ini.</div>
+                                      @endif
 
                                     @else
                                       <div class="alert alert-warning">Data detail tidak tersedia untuk pengguna ini.</div>

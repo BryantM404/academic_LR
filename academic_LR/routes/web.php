@@ -15,6 +15,7 @@ Route::get('/', function () {
 //     return view('superadmin.index');
 // });
 
+Route::get('/superadmin/search', [UserController::class, 'search'])->name('searchSA');
 Route::get('/superadmin', [UserController::class, 'index'])->name('userList');
 Route::get('/superadmin/create', [UserController::class, 'create'])->name('userCreate');
 Route::post('/superadmin/create', [UserController::class, 'store'])->name('userStore');
@@ -26,10 +27,10 @@ Route::delete('/superadmin/delete/{id}', [UserController::class, 'destroy'])->na
 Route::get('/superadmin/edit/{id}', [UserController::class, 'edit'])->name('userEdit');
 Route::put('/superadmin/edit/{id}', [UserController::class, 'update'])->name('userUpdate');
 
-Route::get('/superadmin/create/forms/{role}/{user}', [UserController::class, 'editForms'])->name('userEditForms');
-Route::put('/superadmin/create/forms/kaprodi/{user}', [KaprodiController::class, 'updateStore'])->name('kaprodiEditStore');
-Route::put('/superadmin/create/forms/tataUsaha/{user}', [TataUsahaController::class, 'updateStore'])->name('tataUsahaEditStore');
-Route::put('/superadmin/create/forms/mahasiswa/{user}', [MahasiswaController::class, 'updateStore'])->name('mahasiswaEditStore');
+Route::get('/superadmin/edit/editForms/{role}/{user}', [UserController::class, 'editForms'])->name('userEditForms');
+Route::put('/superadmin/edit/editForms/kaprodi/{user}', [KaprodiController::class, 'updateStore'])->name('kaprodiEditStore');
+Route::put('/superadmin/edit/editForms/tataUsaha/{user}', [TataUsahaController::class, 'updateStore'])->name('tataUsahaEditStore');
+Route::put('/superadmin/edit/editForms/mahasiswa/{user}', [MahasiswaController::class, 'updateStore'])->name('mahasiswaEditStore');
 
 /* Mahasiswa Controller*/
 Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswaIndex');

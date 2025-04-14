@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
+
 
 class UserController extends Controller
 {
@@ -21,9 +23,6 @@ class UserController extends Controller
     
     public function index()
     {
-        // return (view('superadmin.index')
-        // ->with('users', User::all()));
-
         $users = User::with(['userRole', 'userKaprodi', 'userTataUsaha', 'userMahasiswa'])->get();
         return view('superadmin.index', compact('users'));
     }
@@ -42,11 +41,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {   
-        // $request->validate([
-        //     'username' => 'required|string|max:255|unique:users,username',
-        //     'password' => 'required|string|min:6',
-        //     'role_id' => 'required|exists:roles,id' // Pastikan role_id valid
-        // ]);
 
         $validatedData = validator($request->all(),[
             'username' => 'required|string|max:7|unique:user,username',
@@ -73,13 +67,35 @@ class UserController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $users = User::with(['userRole', 'userKaprodi', 'userTataUsaha', 'userMahasiswa'])
+            ->where(function ($query) use ($search) {
+                $query->where('username', 'like', '%' . $search . '%')
+                    ->orWhereHas('userMahasiswa', function ($q) use ($search) {
+                        $q->where('nama', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('userKaprodi', function ($q) use ($search) {
+                        $q->where('nama', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('userTataUsaha', function ($q) use ($search) {
+                        $q->where('nama', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('userRole', function ($q) use ($search) {
+                        $q->where('nama', 'like', '%' . $search . '%');
+                    });
+                    
+            })
+            ->get();
+        return view('superadmin.index', compact('users', 'search'));
+    }
+
     public function forms($role, $user)
     {
 
         $roleData = Role::findOrFail($role);
         $user = User::findOrFail($user);
-
-        // Ambil semua prodi
         $prodis = Prodi::all(); 
         return view('superadmin.forms', compact('roleData', 'user', 'prodis'));
     }
@@ -111,28 +127,39 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        
         $user = User::find($id);
         if ($user == null) {
             return back()->withErrors(['err_msg' => 'User not found!']);
         }
+
         $validatedData = validator($request->all(),[
             'username' => ['required', 'string', 'max:7', Rule::unique('user', 'username')->ignore($user->username, 'username')],
-            'password' => ['required', 'string', 'max:100'],
+            'password' => ['nullable', 'string', 'max:100'],
             'role_id' => ['required', 'exists:role,id']
         ])->validate();
 
+        if (empty($validatedData['password'])) {
+            $finalPassword = $user->password; 
+        } elseif (Hash::check($validatedData['password'], $user->password)) {
+            $finalPassword = $user->password; 
+        } else {
+            $finalPassword = Hash::make($validatedData['password']); 
+        }
+        
         DB::statement("CALL SPEditUser(?, ?, ?)", [
             $id,
             $validatedData['username'],
-            Hash::make($validatedData['password']),
+            $finalPassword
         ]);
 
         // ini method untuk mendapatkan user id yang akan dikirim ke page selanjutnya
-    
         return redirect()->route('userEditForms', [
             'role' => $validatedData['role_id'],
             'user' => $id
         ]);
+
+
     }
 
     public function editForms($role, $user)
@@ -140,8 +167,6 @@ class UserController extends Controller
 
         $roleData = Role::findOrFail($role);
         $user = User::findOrFail($user);
-
-        // Ambil semua prodi
         $prodis = Prodi::all(); 
         return view('superadmin.editForms', compact('roleData', 'user', 'prodis'));
     }
@@ -151,11 +176,6 @@ class UserController extends Controller
      */
     public function destroy(User $user, string $id)
     {
-
-        // $user = User::findOrFail($id);
-        // $user->delete();
-
-        // return redirect()->route('userList')->with('success', 'User berhasil dihapus.');
         Kaprodi::where('user_id', $id)->delete();
         TataUsaha::where('user_id', $id)->delete();
         Mahasiswa::where('user_id', $id)->delete();
