@@ -76,7 +76,6 @@ class UserController extends Controller
 
     public function forms($role, $user)
     {
-
         $roleData = Role::findOrFail($role);
         $user = User::findOrFail($user);
 

@@ -31,7 +31,7 @@
           @if(Auth::user()->userRole->id == 2)
             @php($no = 0)
             @foreach($pengajuans as $pengajuan)
-              @if($pengajuan->statusPengajuan_id == 1)
+              @if($pengajuan->statusPengajuan_id == 1 && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id)
                 @php($no++)
               @endif
             @endforeach

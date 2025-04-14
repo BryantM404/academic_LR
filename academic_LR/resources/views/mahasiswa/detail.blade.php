@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <label for="semester">Semester</label>
-                            <input type="text" class="form-control" id="semester" name="semester" placeholder="Semester" value="{{ $pengajuanDetail->semester }}">
+                            <input type="text" class="form-control" id="semester" name="semester" placeholder="Semester" readonly value="{{ $pengajuanDetail->semester }}">
                         </div>
                     @else
                         <input type="hidden" name="alamat" value="">
@@ -49,11 +49,11 @@
                     @if($pengajuan->jenisSurat_id == 2)
                         <div class="form-group">
                         <label for="kodeMK">Kode Mata Kuliah</label>
-                        <input type="text" class="form-control" id="kodeMK" name="kodeMK" placeholder="Kode Mata Kuliah" value="{{ $pengajuanDetail->kodeMK }}">
+                        <input type="text" class="form-control" id="kodeMK" name="kodeMK" placeholder="Kode Mata Kuliah" readonly value="{{ $pengajuanDetail->kodeMK }}">
                         </div>
                         <div class="form-group">
                         <label for="namaMK">Nama Mata Kuliah</label>
-                        <input type="text" class="form-control" id="namaMK" name="namaMK" placeholder="Nama Mata Kuliah" value="{{ $pengajuanDetail->namaMK }}">
+                        <input type="text" class="form-control" id="namaMK" name="namaMK" placeholder="Nama Mata Kuliah" readonly value="{{ $pengajuanDetail->namaMK }}">
                         </div>
                     @else
                         <input type="hidden" name="kodeMK" value="">
@@ -64,7 +64,7 @@
                     @if($pengajuan->jenisSurat_id == 1 || $pengajuan->jenisSurat_id == 2 || $pengajuan->jenisSurat_id == 4)
                     <div class="form-group">
                         <label for="tujuan">Keperluan Pengajuan</label>
-                        <textarea class="form-control" id="tujuan" name="tujuan" rows="4" placeholder="Keperluan Pengajuan" required >{{$pengajuanDetail->tujuan}}</textarea>
+                        <textarea class="form-control" id="tujuan" name="tujuan" rows="4" placeholder="Keperluan Pengajuan" readonly required >{{$pengajuanDetail->tujuan}}</textarea>
                         </div>
                     @elseif($pengajuan->jenisSurat_id == 3)
                         <input type="hidden" name="tujuan" value="">

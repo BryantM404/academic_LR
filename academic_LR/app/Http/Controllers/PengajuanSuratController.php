@@ -36,21 +36,23 @@ class PengajuanSuratController extends Controller
         }
         return view('mahasiswa.detail')
             ->with('pengajuan', $pengajuan)
+            ->with('pengajuans', Pengajuan::all())
             ->with('pengajuanDetail', $pengajuanDetail)
             ->with('mahasiswa', $mahasiswa);
-    }
-
-    public function detailKaprodi(string $id)
-    {   
-        $pengajuan = Pengajuan::find($id);
-        $pengajuanDetail = DB::table('pengajuanDetail')->where('pengajuan_id', $id)->first();
-        $mahasiswa = DB::table('mahasiswa')->where('id', $pengajuan->mahasiswa_nrp)->first();
-
-        if ($pengajuan == null) {
-            return back()->withErrors(['err_msg' => 'Pengajuan tidak ditemukan!']);
         }
-        return view('kaprodi.detail')
+        
+        public function detailKaprodi(string $id)
+        {   
+            $pengajuan = Pengajuan::find($id);
+            $pengajuanDetail = DB::table('pengajuanDetail')->where('pengajuan_id', $id)->first();
+            $mahasiswa = DB::table('mahasiswa')->where('id', $pengajuan->mahasiswa_nrp)->first();
+            
+            if ($pengajuan == null) {
+                return back()->withErrors(['err_msg' => 'Pengajuan tidak ditemukan!']);
+            }
+            return view('kaprodi.detail')
             ->with('pengajuan', $pengajuan)
+            ->with('pengajuans', Pengajuan::all())
             ->with('pengajuanDetail', $pengajuanDetail)
             ->with('mahasiswa', $mahasiswa);
     }
@@ -67,6 +69,7 @@ class PengajuanSuratController extends Controller
         }
         return view('mahasiswa.edit')
             ->with('pengajuan', $pengajuan)
+            ->with('pengajuans', Pengajuan::all())
             ->with('pengajuanDetail', $pengajuanDetail)
             ->with('mahasiswa', $mahasiswa);
     }

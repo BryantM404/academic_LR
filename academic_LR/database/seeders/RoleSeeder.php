@@ -24,7 +24,7 @@ class RoleSeeder extends Seeder
             ],
             [
                 'id' => '3',
-                'nama' => 'TU',
+                'nama' => 'Tata Usaha',
             ],
             [
                 'id' => '4',

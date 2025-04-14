@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required autofocus value="{{ $users->password }}">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required value="{{ $users->password }}">
                     </div>
                     <div class="form-group">
                         <label class="">Role</label>

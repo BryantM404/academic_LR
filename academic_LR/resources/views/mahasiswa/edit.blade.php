@@ -82,7 +82,7 @@
                       <input type="hidden" name="jenisSurat_id" value="4">
                     @endif
 
-                    <button type="submit" class="btn btn-primary mr-2">Ubah Data</button>
+                    <button type="submit" class="btn btn-primary mr-2">Simpan Data Pengajuan</button>
                   </form>                
                 </div>
               </div>

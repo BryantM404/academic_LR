@@ -24,12 +24,14 @@ class MahasiswaController extends Controller
     public function form()
     {
         return(view('mahasiswa.form'))
-            ->with('jenisSurats', JenisSurat::all());
+            ->with('jenisSurats', JenisSurat::all())
+            ->with('pengajuans', Pengajuan::all());
     }
 
     public function forms(Request $request)
     {
         return view('mahasiswa.forms')
+            ->with('pengajuans', Pengajuan::all())
             ->with('jenisSurat', $request->input('jenisSurat_id'));
     }   
 
