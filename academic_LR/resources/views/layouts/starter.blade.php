@@ -7,8 +7,8 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3 class="font-weight-bold">Welcome Aamir</h3>
-                  <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span class="text-primary">3 unread alerts!</span></h6>
+                  <h3 class="font-weight-bold">Welcome {{ Auth::user()->username }}</h3>
+                  <h6 class="font-weight-normal mb-0">You are logged in as <span class="text-primary">{{ Auth::user()->userRole->nama }}</span></h6>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -28,6 +28,15 @@
               </div>
             </div>
           </div>
+          @if(Auth::user()->userRole->id == 2)
+            @php($no = 0)
+            @foreach($pengajuans as $pengajuan)
+              @if($pengajuan->statusPengajuan_id == 1 && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id)
+                @php($no++)
+              @endif
+            @endforeach
+            <p>Anda memiliki <span class="text-danger">{{ $no }}</span> pengajuan yang belum diselesaikan</p>
+          @endif
           <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card tale-bg">

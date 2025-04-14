@@ -11,6 +11,7 @@ class Mahasiswa extends Model
     protected $fillable = ['id', 'nrp', 'nama', 'email', 'alamat', 'noTelp', 'tanggalLahir', 'prodi_id', 'user_id'];
     protected $keyType = "string";
     public $incrementing = false;
+    public $timestamps = false;
 
     public function mahasiswaProdi(){
         return $this->belongsTo(Prodi::class, 'prodi_id');

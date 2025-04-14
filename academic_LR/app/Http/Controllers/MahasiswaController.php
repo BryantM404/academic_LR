@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisSurat;
 use App\Models\Mahasiswa;
 use App\Models\Pengajuan;
 use App\Models\Prodi;
@@ -22,25 +23,17 @@ class MahasiswaController extends Controller
 
     public function form()
     {
-        return(view('mahasiswa.form'));
+        return(view('mahasiswa.form'))
+            ->with('jenisSurats', JenisSurat::all())
+            ->with('pengajuans', Pengajuan::all());
     }
 
     public function forms(Request $request)
     {
         return view('mahasiswa.forms')
+            ->with('pengajuans', Pengajuan::all())
             ->with('jenisSurat', $request->input('jenisSurat_id'));
     }   
-
-    // $data = $request->all();
-    // return $request;
-    // return(redirect(route('mahasiswa.form')));
-    // return(view('mahasiswa.forms', compact('data')));
-
-    public function pengajuan()
-    {
-        return(view('mahasiswa.pengajuan') 
-            ->with('pengajuans', Pengajuan::all()));
-    } 
 
     /**
      * Show the form for creating a new resource.

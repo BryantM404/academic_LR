@@ -11,6 +11,7 @@ class JenisSurat extends Model
     protected $fillable = ['id', 'nama'];
     protected $keyType = "string";
     public $incrementing = false;
+    public $timestamps = false;
 
     public function jenisSuratPengajuan(){
         return $this->hasMany(Pengajuan::class);

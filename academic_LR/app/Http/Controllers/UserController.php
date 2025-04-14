@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Prodi;
+use App\Models\Pengajuan;
 use App\Models\Kaprodi;
 use App\Models\TataUsaha;
 use App\Models\Mahasiswa;
@@ -93,7 +94,6 @@ class UserController extends Controller
 
     public function forms($role, $user)
     {
-
         $roleData = Role::findOrFail($role);
         $user = User::findOrFail($user);
         $prodis = Prodi::all(); 
@@ -189,4 +189,12 @@ class UserController extends Controller
         return redirect()->route('userList')
             ->with('status', 'user successfully deleted!');
     }
+
+    public function dashboard()
+    {
+        return view('layouts.starter')
+            ->with('pengajuans', Pengajuan::all());
+    }
+
+
 }

@@ -27,7 +27,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <img src="../../images/logo.svg" alt="logo">
+                <img src="{{ asset ('images/Lettly (1).svg') }}" style="width: auto; height: 45px;" alt="logo"/>
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
@@ -47,7 +47,19 @@
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <a href="#" class="auth-link text-black">Forgot password?</a>
                 </div>
+                
+                
               </form>
+              {{-- @if ($errors->any())
+                <div style="color: red;">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif --}}
+              
             </div>
           </div>
         </div>

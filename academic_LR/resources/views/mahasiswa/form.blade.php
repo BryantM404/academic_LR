@@ -23,14 +23,13 @@
                       <div class="form-group row">
                         <label>Jenis Surat</label>
                         <select class="form-control" name="jenisSurat_id">
-                          <option value="1">Surat Keterangan Mahasiswa Aktif</option>
-                          <option value="2">Surat Pengantar Tugas Mata Kuliah</option>
-                          <option value="3">Surat Keterangan Lulus</option>
-                          <option value="4">Surat Laporan Hasil Studi</option>
+                          @foreach($jenisSurats as $jenisSurat)
+                            <option value="{{ $jenisSurat->id }}">{{ $jenisSurat->nama }}</option>
+                          @endforeach
                         </select>
                       </div>
-                      <div class="form-group row">
-                        <button type="submit" class="btn btn-primary ms-100">Submit</button>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                       </div>
                     </form>
                   </div>
