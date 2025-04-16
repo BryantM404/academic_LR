@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
 @section('content')
+
 <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
@@ -21,7 +22,55 @@
               </div>
             </div>
           </div>
-          @if(Auth::user()->userRole->id == 2 || Auth::user()->userRole->id == 3)
+
+        @if (Auth::user()->userRole->id == 1)
+          <div class="row">
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <p class="card-title">Data User berdasarkan Role</p>
+                      <div class="charts-data ">
+                        @foreach ($roles as $role)
+                          @php
+                            // Hitung jumlah user per role
+                            $userCount = $role->roleUser->count(); // Menggunakan eager loading untuk menghitung
+                          @endphp
+                          <div class="mt-3">
+                            <p class="mb-1">{{ $role->nama }}</p>
+                           
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="progress progress-md flex-grow-1 mr-4">
+                                  <div class="progress-bar bg-info " role="progressbar" 
+                                      style="width: {{ ($userCount / $roles->max(function($r) { return $r->roleUser->count(); })) * 100 }}%" 
+                                      aria-valuenow="{{ ($userCount / $roles->max(function($r) { return $r->roleUser->count(); })) * 100 }}" 
+                                      aria-valuemin="0" 
+                                      aria-valuemax="100">
+                                  </div>
+                                </div>
+                              <p class="mb-0">{{ $userCount }}</p>
+                            </div>
+                          </div>
+                        @endforeach
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          @endif
+          {{-- 
+          @if(Auth::user()->userRole->id == 2)
+            @php($no = 0)
+            @foreach($pengajuans as $pengajuan)
+              @if($pengajuan->statusPengajuan_id == 1 && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id)
+                @php($no++)
+              @endif
+            </div> --}}
+        @elseif(Auth::user()->userRole->id == 2 || Auth::user()->userRole->id == 3)
             <div class="row">
               @if(Auth::user()->userRole->id == 2)
                 @php($noSurat = 0)
@@ -52,7 +101,7 @@
                     </div>
                   </div>
                 </div>
-                @elseif(Auth::user()->userRole->id == 3)
+              @elseif(Auth::user()->userRole->id == 3)
                 @php($noSurat = 0)
                 @php($noAccepted = 0)
                 @php($noRejected = 0)
@@ -93,9 +142,6 @@
                     </div>
                   </div>
                 </div>
-                
-              @endif
-            </div>
 
             
             <div class="row">

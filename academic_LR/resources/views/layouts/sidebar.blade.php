@@ -40,6 +40,18 @@
 
           {{-- Tata Usaha Sidebar --}}
           @elseif(Auth::user()->role_id == 3)
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="icon-layout menu-icon"></i>
+                <span class="menu-title">Pengajuan Surat</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="{{ route('pengajuanListTU') }}">List Pengajuan</a></li>
+                </ul>
+              </div>
+            </li>
 
           
           {{-- Mahasiswa Sidebar --}}

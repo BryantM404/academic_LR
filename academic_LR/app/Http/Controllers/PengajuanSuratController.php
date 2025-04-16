@@ -46,6 +46,13 @@ class PengajuanSuratController extends Controller
             ->with('finished', $finished));
     }
 
+    public function indexTU()
+    {
+        return(view('tataUsaha.pengajuan')
+            ->with('filtered', null)
+            ->with('pengajuans', Pengajuan::all()));
+    }
+
     public function detail(string $id)
     {   
         $pengajuan = Pengajuan::find($id);
@@ -62,20 +69,36 @@ class PengajuanSuratController extends Controller
             ->with('mahasiswa', $mahasiswa);
         }
         
-        public function detailKaprodi(string $id)
-        {   
-            $pengajuan = Pengajuan::find($id);
-            $pengajuanDetail = DB::table('pengajuanDetail')->where('pengajuan_id', $id)->first();
-            $mahasiswa = DB::table('mahasiswa')->where('id', $pengajuan->mahasiswa_nrp)->first();
-            
-            if ($pengajuan == null) {
-                return back()->withErrors(['err_msg' => 'Pengajuan tidak ditemukan!']);
-            }
-            return view('kaprodi.detail')
-            ->with('pengajuan', $pengajuan)
-            ->with('pengajuans', Pengajuan::all())
-            ->with('pengajuanDetail', $pengajuanDetail)
-            ->with('mahasiswa', $mahasiswa);
+    public function detailKaprodi(string $id)
+    {   
+        $pengajuan = Pengajuan::find($id);
+        $pengajuanDetail = DB::table('pengajuanDetail')->where('pengajuan_id', $id)->first();
+        $mahasiswa = DB::table('mahasiswa')->where('id', $pengajuan->mahasiswa_nrp)->first();
+        
+        if ($pengajuan == null) {
+            return back()->withErrors(['err_msg' => 'Pengajuan tidak ditemukan!']);
+        }
+        return view('kaprodi.detail')
+        ->with('pengajuan', $pengajuan)
+        ->with('pengajuans', Pengajuan::all())
+        ->with('pengajuanDetail', $pengajuanDetail)
+        ->with('mahasiswa', $mahasiswa);
+    }
+
+    public function detailTU(string $id)
+    {   
+        $pengajuan = Pengajuan::find($id);
+        $pengajuanDetail = DB::table('pengajuanDetail')->where('pengajuan_id', $id)->first();
+        $mahasiswa = DB::table('mahasiswa')->where('id', $pengajuan->mahasiswa_nrp)->first();
+        
+        if ($pengajuan == null) {
+            return back()->withErrors(['err_msg' => 'Pengajuan tidak ditemukan!']);
+        }
+        return view('tataUsaha.detail')
+        ->with('pengajuan', $pengajuan)
+        ->with('pengajuans', Pengajuan::all())
+        ->with('pengajuanDetail', $pengajuanDetail)
+        ->with('mahasiswa', $mahasiswa);
     }
 
 
@@ -214,6 +237,39 @@ class PengajuanSuratController extends Controller
         notify()->success('Pengajuan berhasil ditolak', 'Pengajuan Ditolak!', 'connect');
 
         return redirect()->route('pengajuanListKaprodi');
+    }
+
+
+    public function responsStore(Request $request, string $id)
+    {
+        $pengajuan = Pengajuan::find($id);
+        $pengajuan['statusPengajuan_id'] = 4;
+
+        $validatedData = validator($request->all(),[
+            'dokumen' => 'nullable|mimes:pdf|max:5120',
+            'keterangan' => 'nullable|string|max:250',
+        ])->validate();
+
+        $namaFile = null;
+
+        if ($request->hasFile('dokumen')) {
+            $newFileName = 'FILE_' . $id . '_' . time() . '.' . $request->file('dokumen')->getClientOriginalExtension();
+            $request->file('dokumen')->storeAs('uploads', $newFileName);
+            $namaFile = $newFileName;
+            $pengajuan->dokumen = $namaFile;
+        }
+
+        if (!$namaFile && empty($validatedData['keterangan'])) {
+            return back()->withErrors(['message' => 'Mohon isi dokumen atau keterangan.']);
+        }
+
+        if (!empty($validatedData['keterangan'])) {
+            $pengajuan->keterangan = $validatedData['keterangan'];
+        }
+    
+        $pengajuan->save();
+
+        return redirect()->route('pengajuanListTU');
     }
 
     public function filter1()

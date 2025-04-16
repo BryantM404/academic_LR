@@ -16,9 +16,9 @@
           <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h2 class="card-title">Memodifikasi Data User Aplikasi Fufu</h2>
+                <h2 class="card-title text-primary">Memodifikasi Data User Aplikasi Lettly</h2>
                 <p class="card-description">
-                  Catatan: Username diisi dengan Nomor Induk Kependudukan (bagi Kaprodi atau TU) <br>
+                  Catatan: Username diisi dengan Nomor Induk Kependudukan (bagi Kaprodi atau TU) 
                   atau Nomor Registrasi Peserta (bagi mahasiswa)
                 </p>
                 <form method="POST" action="{{ route('userUpdate', [$users->id]) }}" class="forms-sample" >
@@ -30,21 +30,24 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required value="{{ $users->password }}">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" autofocus >
                     </div>
                     <div class="form-group">
                         <label class="">Role</label>
-                        <select name="role_id" class="form-control" required readonly>
-      
+                        <select name="role_id" class="form-control" disabled>
                           @foreach($roles as $role)
                             @if($role->nama != "Superadmin")
                               @if($role->id == $users->role_id)
-                                <option value="{{ $role->id }}" selected readonly>{{ $role->nama }}</option>
+                              <option value="{{ $role->id }}" {{ $role->id == $users->role_id ? 'selected' : '' }}>
+                                {{ $role->nama }}
+                              </option>
                               @endif
                             @endif
                           @endforeach
                         </select>
                     </div>
+
+                    <input type="hidden" name="role_id" value="{{ $users->role_id }}">
 
                     <input type="submit" value="Submit" class="btn btn-primary mr-2">
                     <a href="{{ route('userList') }}" class="btn btn-light">Kembali</a>

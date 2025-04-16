@@ -26,22 +26,23 @@ Route::middleware(['auth'])->group(function(){
     });
 
     Route::middleware(['role:1'])->group(function (){
+        Route::get('/superadmin/search', [UserController::class, 'search'])->name('searchSA');
         Route::get('/superadmin', [UserController::class, 'index'])->name('userList');
         Route::get('/superadmin/create', [UserController::class, 'create'])->name('userCreate');
         Route::post('/superadmin/create', [UserController::class, 'store'])->name('userStore');
         Route::get('/superadmin/create/forms/{role}/{user}', [UserController::class, 'forms'])->name('userCreateForms');
-        Route::post('/superadmin/create/forms/{role}/{user}', [KaprodiController::class, 'store'])->name('kaprodiStore');
-        
+        Route::post('/superadmin/create/forms/kaprodi/{user}', [KaprodiController::class, 'store'])->name('kaprodiStore');
+
         Route::post('/superadmin/create/forms/tataUsaha/{user}', [TataUsahaController::class, 'store'])->name('tataUsahaStore');
         Route::post('/superadmin/create/forms/mahasiswa/{user}', [MahasiswaController::class, 'store'])->name('mahasiswaStore');
         Route::delete('/superadmin/delete/{id}', [UserController::class, 'destroy'])->name('userDelete');
         Route::get('/superadmin/edit/{id}', [UserController::class, 'edit'])->name('userEdit');
         Route::put('/superadmin/edit/{id}', [UserController::class, 'update'])->name('userUpdate');
-        
-        Route::get('/superadmin/create/forms/{role}/{user}', [UserController::class, 'editForms'])->name('userEditForms');
-        Route::put('/superadmin/create/forms/kaprodi/{user}', [KaprodiController::class, 'updateStore'])->name('kaprodiEditStore');
-        Route::put('/superadmin/create/forms/tataUsaha/{user}', [TataUsahaController::class, 'updateStore'])->name('tataUsahaEditStore');
-        Route::put('/superadmin/create/forms/mahasiswa/{user}', [MahasiswaController::class, 'updateStore'])->name('mahasiswaEditStore');
+
+        Route::get('/superadmin/edit/editForms/{role}/{user}', [UserController::class, 'editForms'])->name('userEditForms');
+        Route::put('/superadmin/edit/editForms/kaprodi/{user}', [KaprodiController::class, 'updateStore'])->name('kaprodiEditStore');
+        Route::put('/superadmin/edit/editForms/tataUsaha/{user}', [TataUsahaController::class, 'updateStore'])->name('tataUsahaEditStore');
+        Route::put('/superadmin/edit/editForms/mahasiswa/{user}', [MahasiswaController::class, 'updateStore'])->name('mahasiswaEditStore');
     });
     
     Route::middleware(['role:2'])->group(function (){
@@ -49,6 +50,12 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/kaprodi/pengajuan/detail/{id}', [PengajuanSuratController::class, 'detailKaprodi'])->name('pengajuanDetailKaprodi'); // nampilin pengajuan detail
         Route::post('/kaprodi/pengajuan/accpeted/{id}', [PengajuanSuratController::class, 'accepted'])->name('pengajuanAccepted');
         Route::post('/kaprodi/pengajuan/rejected/{id}', [PengajuanSuratController::class, 'rejected'])->name('pengajuanRejected');
+    });
+
+    Route::middleware(['role:3'])->group(function (){
+        Route::get('/tataUsaha/pengajuan', [PengajuanSuratController::class, 'indexTU'])->name('pengajuanListTU');   // nampilin list pengajuan di tata usaha
+        Route::get('/tataUsaha/pengajuan/detail/{id}', [PengajuanSuratController::class, 'detailTU'])->name('pengajuanDetailTU'); 
+        Route::post('/tataUsaha/pengajuan/{id}', [PengajuanSuratController::class, 'responsStore'])->name('responsStore');
     });
 
     Route::middleware(['role:4'])->group(function (){
