@@ -216,6 +216,7 @@ class PengajuanSuratController extends Controller
     {
         $pengajuan = Pengajuan::find($id);
         $pengajuan['statusPengajuan_id'] = 2;
+        $pengajuan['keterangan'] = null;
         $pengajuan->save();
 
         notify()->success('Pengajuan berhasil disetujui', 'Pengajuan Disetujui!', 'connect');

@@ -152,7 +152,7 @@
                                             <div class="row p-1">
                                               <p class="fw-semibold">Alasan penolakan: </p>
                                               <form method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
-                                                <textarea name="keterangan" id="keterangan" cols="57" rows="8" style="border: 1px solid grey;" placeholder="Tidak memenuhi kriteria"></textarea>
+                                                <textarea name="keterangan" id="keterangan" cols="57" rows="8" style="border: 1px solid grey;" placeholder="Tidak memenuhi kriteria" required></textarea>
                                             </div>
                                           </div>
                                           <div class="modal-footer">

@@ -69,6 +69,7 @@ class MahasiswaController extends Controller
             $validatedData['prodi_id'],
             $validatedData['user_id']
         ]);
+        
 
         return redirect()->route('userList');
     }
@@ -96,7 +97,6 @@ class MahasiswaController extends Controller
             $validatedData['tanggalLahir'],
             $validatedData['prodi_id']
         ]);
-
         return redirect()->route('userList');
 
     }

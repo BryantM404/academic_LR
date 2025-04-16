@@ -126,7 +126,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="nrp">NRP</label>
-                                <input type="text" class="form-control" name="nrp" id="nrp" placeholder="ex: 2372066" required autofocus>
+                                <input type="text" class="form-control" name="nrp" id="nrp" placeholder="ex: 2372066" value="{{ $user->username }}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama</label>

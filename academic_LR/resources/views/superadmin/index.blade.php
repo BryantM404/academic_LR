@@ -87,37 +87,18 @@
                             {{ $user->userRole->role_id}} {{ $user->userRole->nama }}
                           </td>
                           <td>
-                            <div class="row g-0">
-                              <div class="col">
-                                <button type="button" 
-                                        class="btn btn-inverse-info btn-fw btn-sm d-flex align-items-center btn-rounded"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#detailUser-{{ $user->id }}"
-                                      >
-                                  <i class="mdi mdi-information-outline icon-sm"></i> <span class="px-1">detail</span>
-                                </button>
-                              </div>
-                              <div class="col form-button-action">
-                                <button 
-                                title="Edit"
-                                class="btn btn-inverse-warning btn-fw btn-sm d-flex align-items-center btn-rounded edit-data"
-                                data-bs-toggle="tooltip"
-                                data-original-title="Edit"
-                                data-url="{{ route('userEdit', [$user->id]) }}">
-                                  <i class="mdi mdi-pencil icon-sm"></i> <span class="px-1">edit</span>
-                                </button>
-                              </div>
-                              
-                              <div class="col">
-                                <button 
-                                  type="button" 
-                                  class="btn btn-inverse-danger btn-fw btn-sm d-flex align-items-center btn-rounded" 
-                                  data-bs-toggle="modal" 
-                                  data-bs-target="#deleteUserModal-{{ $user->id }}">
-                                    <i class="mdi mdi-eraser icon-sm"></i> <span class="px-1">delete</span>
-                                  </button>
-                              </div>
-
+                            <div class="container d-flex flex-wrap gap-2">
+                              <a class="btn btn-inverse-info btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#detailUser-{{ $user->id }}">
+                                <i class="mdi mdi-information-outline icon-sm"></i> <span class="px-1">detail</span>
+                              </a>
+                              <a class="btn btn-inverse-warning btn-fw btn-sm btn-rounded d-inline-flex align-items-center" href="{{ route('userEdit', [$user->id]) }}">
+                                <i class="mdi mdi-pencil icon-sm"></i> <span class="px-1">edit</span>
+                              </a>
+                              @if($user->userRole->id == 4)
+                                <a class="btn btn-inverse-danger btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#deleteUserModal-{{ $user->id }}"">
+                                  <i class="mdi mdi-eraser icon-sm"></i> <span class="px-1">delete</span>
+                                </a>
+                              @endif
                             </div>
                             <div class="modal fade" id="deleteUserModal-{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog">

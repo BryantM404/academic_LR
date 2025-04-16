@@ -54,7 +54,6 @@ class UserController extends Controller
             $validatedData['role_id']
         ]);
 
-        // ini method untuk mendapatkan user id yang akan dikirim ke page selanjutnya
         $newUser = DB::table('user')->where('username', $validatedData['username'])->first();
     
         if (!$newUser) {
@@ -152,7 +151,6 @@ class UserController extends Controller
             $finalPassword
         ]);
 
-        // ini method untuk mendapatkan user id yang akan dikirim ke page selanjutnya
         return redirect()->route('userEditForms', [
             'role' => $validatedData['role_id'],
             'user' => $id
@@ -185,6 +183,7 @@ class UserController extends Controller
         }
 
         $user->delete();
+
         return redirect()->route('userList')
             ->with('status', 'user successfully deleted!');
     }

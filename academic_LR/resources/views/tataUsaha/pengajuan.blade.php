@@ -139,7 +139,7 @@
                                               </div>
                                               <div class="form-group">
                                                 <label for="keterangan">Keterangan</label>
-                                                <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250" placeholder="Tulis keterangan di sini..."></textarea>
+                                                <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250">{{ $pengajuan->keterangan }}</textarea>
                                               </div>
                                             </div>
                                           <div class="modal-footer">
@@ -221,7 +221,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                   <label for="keterangan">Keterangan</label>
-                                                  <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250" placeholder="Tulis keterangan di sini..."></textarea>
+                                                  <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250">{{ $pengajuan->keterangan }}</textarea>
                                                 </div>
                                               </div>
                                             <div class="modal-footer">
@@ -363,7 +363,7 @@
                                               </div>
                                               <div class="form-group">
                                                 <label for="keterangan">Keterangan</label>
-                                                <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250" placeholder="Tulis keterangan di sini..."></textarea>
+                                                <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250"> {{ $pengajuan->keterangan }}</textarea>
                                               </div>
                                             </div>
                                           <div class="modal-footer">
@@ -445,7 +445,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                   <label for="keterangan">Keterangan</label>
-                                                  <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250" placeholder="Tulis keterangan di sini..."></textarea>
+                                                  <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250" >{{ $pengajuan->keterangan }}</textarea>
                                                 </div>
                                               </div>
                                             <div class="modal-footer">
@@ -588,7 +588,7 @@
                                               </div>
                                               <div class="form-group">
                                                 <label for="keterangan">Keterangan</label>
-                                                <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250" placeholder="Tulis keterangan di sini..."></textarea>
+                                                <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250">{{ $pengajuan->keterangan }}</textarea>
                                               </div>
                                             </div>
                                           <div class="modal-footer">
@@ -670,7 +670,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                   <label for="keterangan">Keterangan</label>
-                                                  <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250" placeholder="Tulis keterangan di sini..."></textarea>
+                                                  <textarea class="form-control" name="keterangan" id="keterangan" rows="4" maxlength="250">{{ $pengajuan->keterangan }}</textarea>
                                                 </div>
                                               </div>
                                             <div class="modal-footer">

@@ -141,13 +141,24 @@
                           </div>
                         </a>
                         <hr class="dropdown-divider">
-                      @elseif($pengajuan->statusPengajuan_id == 4)
+                      @elseif($pengajuan->statusPengajuan_id == 4 && $pengajuan->keterangan == null)
                         <a class="dropdown-item preview-item" href="{{ route('pengajuanList') }}">
                           <div class="preview-item-content">
                             <h6 class="preview-subject fw-bold">Pengajuan Selesai</h6>
                             <p>
                               Pengajuan <span class="fw-semibold">{{ $pengajuan->pengajuanJenisSurat->nama }}</span> anda
                               telah <span class="text-info">selesai</span>, silahkan unduh surat anda.
+                            </p>
+                          </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                      @elseif($pengajuan->statusPengajuan_id == 4 && $pengajuan->keterangan != null)
+                        <a class="dropdown-item preview-item" href="{{ route('pengajuanList') }}">
+                          <div class="preview-item-content">
+                            <h6 class="preview-subject fw-bold">Pengajuan Selesai</h6>
+                            <p>
+                              Pengajuan <span class="fw-semibold">{{ $pengajuan->pengajuanJenisSurat->nama }}</span> anda
+                              telah <span class="text-info">selesai</span>, silahkan cek pengajuannya.
                             </p>
                           </div>
                         </a>
