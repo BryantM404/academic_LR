@@ -16,7 +16,7 @@ class StatusPengajuanSeeder extends Seeder
         $statuss = [
             [
                 'id' => '1',
-                'nama' => 'Apply',
+                'nama' => 'In Progress',
             ],
             [
                 'id' => '2',

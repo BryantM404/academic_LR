@@ -26,7 +26,7 @@
               </div>
             </div>
           </div>
-
+          
           {{-- Status In Progress --}}
           <div class="row">
             <!-- Table  -->
@@ -35,7 +35,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <h4 class="card-title">List Pengajuan In Progress</h4>
+                      <h4 class="card-title">List Pengajuan - <span class="text-warning">In Progress</span></h4>
                     </div>
                     <div class="col">
                   </div>
@@ -44,7 +44,7 @@
                       <thead>
                         <tr>
                           <th>
-                            No
+                            Non
                           </th>
                           <th>
                             NRP
@@ -72,13 +72,13 @@
 
                         {{-- Semua Surat --}}
                         @if($filtered != null)
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($progress as $pengajuan)
                             @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 1 && $pengajuan->jenisSurat_id == $filtered)
                               @php($ada = true)
                             @endif
                           @endforeach
                           
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($progress as $pengajuan)
                             @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 1 && $pengajuan->jenisSurat_id == $filtered)
                               <tr>
                                 <td style="width: 2%">
@@ -90,7 +90,7 @@
                                 <td style="width: 15%">
                                   {{ $pengajuan->pengajuanMahasiswa->nama}}
                                 </td>
-                                <td style="width: 5%">
+                                <td style="width: 23%">
                                   {{ $pengajuan->pengajuanJenisSurat->nama}}
                                 </td>
                                 <td style="width: 3%">
@@ -107,7 +107,7 @@
                                     <span class="text-info fw-bold">{{ $pengajuan->pengajuanStatusPengajuan->nama}} </span>
                                   @endif
                                 </td>
-                                <td style="width: 70%">
+                                <td style="width: 52%">
                                   <div class="container d-flex flex-wrap gap-2">
                                     <a class="btn btn-inverse-info btn-fw btn-sm btn-rounded d-inline-flex align-items-center" href="{{ route('pengajuanDetailKaprodi', [$pengajuan->id]) }}">
                                         <i class="mdi mdi-file-document icon-sm me-1"></i> <span class="fw-semibold">Lihat Detail</span>
@@ -149,12 +149,16 @@
                                           </div>
                                           <div class="modal-body">
                                             Apakah anda yakin ingin menolak pengajuan surat ini?
+                                            <div class="row p-1">
+                                              <p class="fw-semibold">Alasan penolakan: </p>
+                                              <form method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
+                                                <textarea name="keterangan" id="keterangan" cols="57" rows="8" style="border: 1px solid grey;" placeholder="Tidak memenuhi kriteria"></textarea>
+                                            </div>
                                           </div>
                                           <div class="modal-footer">
-                                            <form  method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
                                               @csrf
                                                 <button type="submit" class="btn btn-danger">Ya</button>
-                                            </form>
+                                              </form>
                                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
                                           </div>
                                         </div>
@@ -167,13 +171,13 @@
                           @endforeach
                         
                         @else
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($progress as $pengajuan)
                               @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 1)
                                 @php($ada = true)
                               @endif
                             @endforeach
                             
-                            @foreach($pengajuans as $pengajuan)
+                            @foreach($progress as $pengajuan)
                               @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 1)
                                 <tr>
                                   <td style="width: 2%">
@@ -185,7 +189,7 @@
                                   <td style="width: 15%">
                                     {{ $pengajuan->pengajuanMahasiswa->nama}}
                                   </td>
-                                  <td style="width: 5%">
+                                  <td style="width: 23%">
                                     {{ $pengajuan->pengajuanJenisSurat->nama}}
                                   </td>
                                   <td style="width: 3%">
@@ -202,7 +206,7 @@
                                       <span class="text-info fw-bold">{{ $pengajuan->pengajuanStatusPengajuan->nama}} </span>
                                     @endif
                                   </td>
-                                  <td style="width: 70%">                
+                                  <td style="width: 52%">                
                                     <div class="container d-flex flex-wrap gap-2">
                                       <a class="btn btn-inverse-info btn-fw btn-sm btn-rounded d-inline-flex align-items-center" href="{{ route('pengajuanDetailKaprodi', [$pengajuan->id]) }}">
                                           <i class="mdi mdi-file-document icon-sm me-1"></i> <span class="fw-semibold">Lihat Detail</span>
@@ -244,12 +248,16 @@
                                             </div>
                                             <div class="modal-body">
                                               Apakah anda yakin ingin menolak pengajuan surat ini?
+                                              <div class="row p-1">
+                                                <p class="fw-semibold">Alasan penolakan: </p>
+                                                <form method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
+                                                  <textarea name="keterangan" id="keterangan" cols="57" rows="8" style="border: 1px solid grey;" placeholder="Tidak memenuhi kriteria"></textarea>
+                                              </div>
                                             </div>
                                             <div class="modal-footer">
-                                              <form  method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
                                                 @csrf
                                                   <button type="submit" class="btn btn-danger">Ya</button>
-                                              </form>
+                                                </form>
                                               <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
                                             </div>
                                           </div>
@@ -270,6 +278,11 @@
                       </tbody>
                     </table>
                   </div>
+                  @if($ada == true)
+                    <div class="container-fluid pt-3">
+                      {{ $progress->appends(request()->except('progressTable'))->links('pagination::bootstrap-5') }}
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
@@ -284,7 +297,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-10">
-                    <h4 class="card-title">List Pengajuan Accepted</h4>
+                    <h4 class="card-title">List Pengajuan - <span class="text-success">Accepted</span></h4>
                   </div>
                   <div class="col">
                 </div>
@@ -321,13 +334,13 @@
 
                       {{-- Semua Surat --}}
                       @if($filtered != null)
-                        @foreach($pengajuans as $pengajuan)
+                        @foreach($accepted as $pengajuan)
                           @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 2 && $pengajuan->jenisSurat_id == $filtered)
                             @php($ada = true)
                           @endif
                         @endforeach
                         
-                        @foreach($pengajuans as $pengajuan)
+                        @foreach($accepted as $pengajuan)
                           @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 2 && $pengajuan->jenisSurat_id == $filtered)
                             <tr>
                               <td style="width: 2%">
@@ -361,30 +374,6 @@
                                   <a class="btn btn-inverse-info btn-fw btn-sm btn-rounded d-inline-flex align-items-center" href="{{ route('pengajuanDetailKaprodi', [$pengajuan->id]) }}">
                                       <i class="mdi mdi-file-document icon-sm me-1"></i> <span class="fw-semibold">Lihat Detail</span>
                                   </a>
-                                  <a class="btn btn-inverse-success btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#acceptLetter{{ $pengajuan->id }}">
-                                      <i class="mdi mdi-check-circle icon-sm me-1"></i> <span class="fw-semibold">Setujui</span>
-                                  </a>
-                                  {{-- Modal Accepted --}}
-                                  <div class="modal fade" id="acceptLetter{{ $pengajuan->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Setujui Pengajuan Surat</h1>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                          Apakah anda yakin ingin menyetujui pengajuan surat ini?
-                                        </div>
-                                        <div class="modal-footer">
-                                          <form  method="POST" action="{{ route('pengajuanAccepted', [$pengajuan->id]) }}">
-                                            @csrf
-                                              <button type="submit" class="btn btn-danger">Ya</button>
-                                          </form>
-                                          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div> 
                                   <a class="btn btn-inverse-danger btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#rejectLetter{{ $pengajuan->id }}">
                                       <i class="mdi mdi-close-circle icon-sm me-1"></i> <span class="fw-semibold">Tolak</span>
                                   </a>
@@ -398,12 +387,16 @@
                                         </div>
                                         <div class="modal-body">
                                           Apakah anda yakin ingin menolak pengajuan surat ini?
+                                          <div class="row p-1">
+                                            <p class="fw-semibold">Alasan penolakan: </p>
+                                            <form method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
+                                              <textarea name="keterangan" id="keterangan" cols="57" rows="8" style="border: 1px solid grey;" placeholder="Tidak memenuhi kriteria"></textarea>
+                                          </div>
                                         </div>
                                         <div class="modal-footer">
-                                          <form  method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
                                             @csrf
                                               <button type="submit" class="btn btn-danger">Ya</button>
-                                          </form>
+                                            </form>
                                           <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
                                         </div>
                                       </div>
@@ -416,13 +409,13 @@
                         @endforeach
                       
                         @else
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($accepted as $pengajuan)
                             @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 2)
                               @php($ada = true)
                             @endif
                           @endforeach
                           
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($accepted as $pengajuan)
                             @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 2)
                               <tr>
                                 <td style="width: 2%">
@@ -456,30 +449,6 @@
                                     <a class="btn btn-inverse-info btn-fw btn-sm btn-rounded d-inline-flex align-items-center" href="{{ route('pengajuanDetailKaprodi', [$pengajuan->id]) }}">
                                         <i class="mdi mdi-file-document icon-sm me-1"></i> <span class="fw-semibold">Lihat Detail</span>
                                     </a>
-                                    <a class="btn btn-inverse-success btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#acceptLetter{{ $pengajuan->id }}">
-                                        <i class="mdi mdi-check-circle icon-sm me-1"></i> <span class="fw-semibold">Setujui</span>
-                                    </a>
-                                    {{-- Modal Accepted --}}
-                                    <div class="modal fade" id="acceptLetter{{ $pengajuan->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Setujui Pengajuan Surat</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                          </div>
-                                          <div class="modal-body">
-                                            Apakah anda yakin ingin menyetujui pengajuan surat ini? 
-                                          </div>
-                                          <div class="modal-footer">
-                                            <form  method="POST" action="{{ route('pengajuanAccepted', [$pengajuan->id]) }}">
-                                              @csrf
-                                                <button type="submit" class="btn btn-danger">Ya</button>
-                                            </form>
-                                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div> 
                                     <a class="btn btn-inverse-danger btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#rejectLetter{{ $pengajuan->id }}">
                                         <i class="mdi mdi-close-circle icon-sm me-1"></i> <span class="fw-semibold">Tolak</span>
                                     </a>
@@ -493,12 +462,16 @@
                                           </div>
                                           <div class="modal-body">
                                             Apakah anda yakin ingin menolak pengajuan surat ini?
+                                            <div class="row p-1">
+                                              <p class="fw-semibold">Alasan penolakan: </p>
+                                              <form method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
+                                                <textarea name="keterangan" id="keterangan" cols="57" rows="8" style="border: 1px solid grey;" placeholder="Tidak memenuhi kriteria"></textarea>
+                                            </div>
                                           </div>
                                           <div class="modal-footer">
-                                            <form  method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
                                               @csrf
                                                 <button type="submit" class="btn btn-danger">Ya</button>
-                                            </form>
+                                              </form>
                                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
                                           </div>
                                         </div>
@@ -510,7 +483,6 @@
                             @endif
                           @endforeach
                        @endif
-
                         @if($ada == false)
                         <tr>
                           <td colspan="7" class="text-center py-4">Belum ada surat yang diajukan</td>
@@ -519,6 +491,11 @@
                       </tbody>
                     </table>
                   </div>
+                  @if($ada == true)
+                    <div class="container-fluid pt-3">
+                      {{ $accepted->appends(request()->except('acceptedTable'))->links('pagination::bootstrap-5') }}
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
@@ -534,7 +511,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-10">
-                    <h4 class="card-title">List Pengajuan Rejected</h4>
+                    <h4 class="card-title">List Pengajuan - <span class="text-danger">Rejected</span></h4>
                   </div>
                   <div class="col">
                 </div>
@@ -571,13 +548,13 @@
 
                       {{-- Semua Surat --}}
                       @if($filtered != null)
-                        @foreach($pengajuans as $pengajuan)
+                        @foreach($rejected as $pengajuan)
                           @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 3 && $pengajuan->jenisSurat_id == $filtered)
                             @php($ada = true)
                           @endif
                         @endforeach
                         
-                        @foreach($pengajuans as $pengajuan)
+                        @foreach($rejected as $pengajuan)
                           @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 3 && $pengajuan->jenisSurat_id == $filtered)
                             <tr>
                               <td style="width: 2%">
@@ -634,30 +611,6 @@
                                         </div>
                                       </div>
                                     </div>
-                                  </div> 
-                                  <a class="btn btn-inverse-danger btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#rejectLetter{{ $pengajuan->id }}">
-                                      <i class="mdi mdi-close-circle icon-sm me-1"></i> <span class="fw-semibold">Tolak</span>
-                                  </a>
-                                  {{-- Modal Rejected --}}
-                                  <div class="modal fade" id="rejectLetter{{ $pengajuan->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Tolak Pengajuan Surat</h1>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                          Apakah anda yakin ingin menolak pengajuan surat ini?
-                                        </div>
-                                        <div class="modal-footer">
-                                          <form  method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
-                                            @csrf
-                                              <button type="submit" class="btn btn-danger">Ya</button>
-                                          </form>
-                                          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
-                                        </div>
-                                      </div>
-                                    </div>
                                   </div>      
                                 </div>
                               </td>
@@ -666,13 +619,13 @@
                         @endforeach
                       
                         @else
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($rejected as $pengajuan)
                             @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 3)
                               @php($ada = true)
                             @endif
                           @endforeach
                           
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($rejected as $pengajuan)
                             @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 3)
                               <tr>
                                 <td style="width: 2%">
@@ -729,30 +682,6 @@
                                           </div>
                                         </div>
                                       </div>
-                                    </div> 
-                                    <a class="btn btn-inverse-danger btn-fw btn-sm btn-rounded d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#rejectLetter{{ $pengajuan->id }}">
-                                        <i class="mdi mdi-close-circle icon-sm me-1"></i> <span class="fw-semibold">Tolak</span>
-                                    </a>
-                                    {{-- Modal Rejected --}}
-                                    <div class="modal fade" id="rejectLetter{{ $pengajuan->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tolak Pengajuan Surat</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                          </div>
-                                          <div class="modal-body">
-                                            Apakah anda yakin ingin menolak pengajuan surat ini?
-                                          </div>
-                                          <div class="modal-footer">
-                                            <form  method="POST" action="{{ route('pengajuanRejected', [$pengajuan->id]) }}">
-                                              @csrf
-                                                <button type="submit" class="btn btn-danger">Ya</button>
-                                            </form>
-                                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
-                                          </div>
-                                        </div>
-                                      </div>
                                     </div>      
                                   </div>
                                 </td>
@@ -769,6 +698,11 @@
                       </tbody>
                     </table>
                   </div>
+                  @if($ada == true)
+                    <div class="container-fluid pt-3">
+                      {{ $rejected->appends(request()->except('rejectedTable'))->links('pagination::bootstrap-5') }}
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
@@ -784,7 +718,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-10">
-                    <h4 class="card-title">List Pengajuan Finished</h4>
+                    <h4 class="card-title">List Pengajuan - <span class="text-info">Finished</span></h4>
                   </div>
                   <div class="col">
                 </div>
@@ -821,13 +755,13 @@
 
                       {{-- Semua Surat --}}
                       @if($filtered != null)
-                        @foreach($pengajuans as $pengajuan)
+                        @foreach($finished as $pengajuan)
                           @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 4 && $pengajuan->jenisSurat_id == $filtered)
                             @php($ada = true)
                           @endif
                         @endforeach
                         
-                        @foreach($pengajuans as $pengajuan)
+                        @foreach($finished as $pengajuan)
                           @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 4 && $pengajuan->jenisSurat_id == $filtered)
                             <tr>
                               <td style="width: 2%">
@@ -916,13 +850,13 @@
                         @endforeach
                       
                       @else
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($finished as $pengajuan)
                             @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 4)
                               @php($ada = true)
                             @endif
                           @endforeach
                           
-                          @foreach($pengajuans as $pengajuan)
+                          @foreach($finished as $pengajuan)
                             @if($ada == true && $pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->pengajuanStatusPengajuan->id == 4)
                               <tr>
                                 <td style="width: 2%">
@@ -1019,12 +953,15 @@
                       </tbody>
                     </table>
                   </div>
+                  @if($ada == true)
+                    <div class="container-fluid pt-3">
+                      {{ $finished->appends(request()->except('finishedTable'))->links('pagination::bootstrap-5') }}
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
           </div>
-          
-          
         </div>
       </div>
 @endsection

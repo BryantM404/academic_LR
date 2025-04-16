@@ -20,9 +20,30 @@ class PengajuanSuratController extends Controller
 
     public function indexKaprodi()
     {
+        $progress = Pengajuan::where('statusPengajuan_id', '1')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'progressTable');
+
+        $accepted = Pengajuan::where('statusPengajuan_id', '2')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'acceptedTable');
+        
+        $rejected = Pengajuan::where('statusPengajuan_id', '3')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'rejectedTable');
+
+        $finished = Pengajuan::where('statusPengajuan_id', '4')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'finishedTable');
+
+
         return(view('kaprodi.pengajuan')
             ->with('filtered', null)
-            ->with('pengajuans', Pengajuan::all()));
+            ->with('pengajuans', Pengajuan::all())
+            ->with('progress', $progress)
+            ->with('accepted', $accepted)
+            ->with('rejected', $rejected)
+            ->with('finished', $finished));
     }
 
     public function detail(string $id)
@@ -103,6 +124,9 @@ class PengajuanSuratController extends Controller
         $pengajuan_id,
       ]);
 
+      notify()->success('Pengajuan berhasil diedit', 'Pengajuan Diedit!', 'connect');
+
+
       return redirect()->route('pengajuanList')
         ->with('filtered', null)
         ->with('status', 'Pengajuan berhasil diubah!');
@@ -140,7 +164,9 @@ class PengajuanSuratController extends Controller
             $validatedData['namaMK'],
             $pengajuan_id->id,
         ]);
-        
+
+        notify()->success('Pengajuan berhasil dibuat', 'Pengajuan Dibuat!', 'connect');
+
         return(view('mahasiswa.pengajuan')
             ->with('filtered', null)
             ->with('pengajuans', Pengajuan::all()));
@@ -156,6 +182,9 @@ class PengajuanSuratController extends Controller
         ]);
         
         $pengajuan->delete();
+        
+        notify()->success('Pengajuan berhasil dihapus', 'Pengajuan Dihapus!', 'connect');
+        
         return redirect()->route('pengajuanList')
             ->with('status', 'Pengajuan berhasil dihapus!');
     }
@@ -165,63 +194,175 @@ class PengajuanSuratController extends Controller
         $pengajuan = Pengajuan::find($id);
         $pengajuan['statusPengajuan_id'] = 2;
         $pengajuan->save();
+
+        notify()->success('Pengajuan berhasil disetujui', 'Pengajuan Disetujui!', 'connect');
+        
         return redirect()->route('pengajuanListKaprodi');
     }
-
-    public function rejected(String $id)
+    
+    public function rejected(String $id, Request $request)
     {
+        $validatedData = validator($request->all(),[
+            'keterangan' => 'required|string|max:250',
+        ])->validate();
+
         $pengajuan = Pengajuan::find($id);
         $pengajuan['statusPengajuan_id'] = 3;
+        $pengajuan['keterangan'] = $validatedData['keterangan'];
         $pengajuan->save();
+        
+        notify()->success('Pengajuan berhasil ditolak', 'Pengajuan Ditolak!', 'connect');
+
         return redirect()->route('pengajuanListKaprodi');
     }
 
     public function filter1()
     {
+
+        $progress = Pengajuan::where('statusPengajuan_id', '1')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'progressTable');
+
+        $accepted = Pengajuan::where('statusPengajuan_id', '2')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'acceptedTable');
+        
+        $rejected = Pengajuan::where('statusPengajuan_id', '3')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'rejectedTable');
+
+        $finished = Pengajuan::where('statusPengajuan_id', '4')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'finishedTable');
+
+
         if(Auth::user()->role_id == 2){
             return(view('kaprodi.pengajuan')
                 ->with('filtered', "1")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         } elseif(Auth::user()->role_id == 4){
             return(view('mahasiswa.pengajuan')
                 ->with('filtered', "1")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         }
     }
 
     public function filter2()
     {
+
+        $progress = Pengajuan::where('statusPengajuan_id', '1')
+        ->orderBy('tanggalPengajuan', 'asc')
+        ->paginate(5, ['*'], 'progressTable');
+
+        $accepted = Pengajuan::where('statusPengajuan_id', '2')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'acceptedTable');
+        
+        $rejected = Pengajuan::where('statusPengajuan_id', '3')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'rejectedTable');
+
+        $finished = Pengajuan::where('statusPengajuan_id', '4')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'finishedTable');
+
         if(Auth::user()->role_id == 2){
             return(view('kaprodi.pengajuan')
                 ->with('filtered', "2")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         } elseif(Auth::user()->role_id == 4){
             return(view('mahasiswa.pengajuan')
                 ->with('filtered', "2")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         }
     }
     public function filter3()
     {
+
+        $progress = Pengajuan::where('statusPengajuan_id', '1')
+        ->orderBy('tanggalPengajuan', 'asc')
+        ->paginate(5, ['*'], 'progressTable');
+
+        $accepted = Pengajuan::where('statusPengajuan_id', '2')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'acceptedTable');
+        
+        $rejected = Pengajuan::where('statusPengajuan_id', '3')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'rejectedTable');
+
+        $finished = Pengajuan::where('statusPengajuan_id', '4')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'finishedTable');
+
         if(Auth::user()->role_id == 2){
             return(view('kaprodi.pengajuan')
                 ->with('filtered', "3")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         } elseif(Auth::user()->role_id == 4){
             return(view('mahasiswa.pengajuan')
                 ->with('filtered', "3")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         }
     }
     public function filter4()
     {
+
+        $progress = Pengajuan::where('statusPengajuan_id', '1')
+        ->orderBy('tanggalPengajuan', 'asc')
+        ->paginate(5, ['*'], 'progressTable');
+
+        $accepted = Pengajuan::where('statusPengajuan_id', '2')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'acceptedTable');
+        
+        $rejected = Pengajuan::where('statusPengajuan_id', '3')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'rejectedTable');
+
+        $finished = Pengajuan::where('statusPengajuan_id', '4')
+            ->orderBy('tanggalPengajuan', 'asc')
+            ->paginate(5, ['*'], 'finishedTable');
+
         if(Auth::user()->role_id == 2){
             return(view('kaprodi.pengajuan')
                 ->with('filtered', "4")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         } elseif(Auth::user()->role_id == 4){
             return(view('mahasiswa.pengajuan')
                 ->with('filtered', "4")
+                ->with('progress', $progress)
+                ->with('accepted', $accepted)
+                ->with('rejected', $rejected)
+                ->with('finished', $finished)
                 ->with('pengajuans', Pengajuan::all()));
         }
     }

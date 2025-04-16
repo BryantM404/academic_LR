@@ -29,8 +29,9 @@
               <div class="brand-logo">
                 <img src="{{ asset ('images/Lettly (1).svg') }}" style="width: auto; height: 45px;" alt="logo"/>
               </div>
-              <h4>Hello! let's get started</h4>
-              <h6 class="font-weight-light">Sign in to continue.</h6>
+              {{-- <h4>Hello! let's get started</h4> --}}
+              <h4>Hello! Log in to continue</h4>
+              {{-- <h6 class="font-weight-light">Sign in to continue.</h6> --}}
               <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">

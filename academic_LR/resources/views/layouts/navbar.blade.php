@@ -26,8 +26,10 @@
               <i class="icon-bell mx-0"></i>
               <span class="count"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" style="max-height: 410px; overflow-y: auto;" aria-labelledby="notificationDropdown">
               <p class="mb-0 font-weight-normal float-left dropdown-header">Notifikasi</p>
+              @php($ada = false)
+
               @if(Auth::user()->role_id == 2)
               
                 @foreach ($pengajuans as $pengajuan)
@@ -36,12 +38,8 @@
                   @php($selisih = (new DateTime($pengajuan->tanggalPengajuan))->diff(new DateTime('today')))
 
                   @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userKaprodi->prodi_id && $pengajuan->statusPengajuan_id == 1 && $selisih->days < 30)
-                    <a class="dropdown-item preview-item">
-                      {{-- <div class="preview-thumbnail">
-                        <div class="preview-icon bg-success">
-                          <i class="ti-info-alt mx-0"></i>
-                        </div>
-                      </div> --}}
+                    @php($ada = true)
+                    <a class="dropdown-item preview-item" href="{{ route('pengajuanListKaprodi') }}">
                       <div class="preview-item-content">
                         <div class="row">
                           <div class="col-9">
@@ -71,6 +69,7 @@
               @elseif(Auth::user()->role_id == 3)
                 @foreach($pengajuans as $pengajuan)
                   @if($pengajuan->pengajuanMahasiswa->prodi_id == Auth::user()->userTataUsaha->prodi_id)
+                    @php($ada = true)
                     @if($pengajuan->statusPengajuan_id == 2)
                       <a class="dropdown-item preview-item">
                         {{-- <div class="preview-thumbnail">
@@ -110,15 +109,18 @@
                 @endforeach
 
               @elseif(Auth::user()->role_id == 4)
+
+                {{-- @foreach($pengajuans as $pengajuan)
+                  @if($pengajuan->mahasiswa_nrp == Auth::user()->userMahasiswa->id)
+                      @php($ada = true)
+                  @endif
+                @endforeach --}}
+                      
                 @foreach($pengajuans as $pengajuan)
                   @if($pengajuan->mahasiswa_nrp == Auth::user()->userMahasiswa->id)
+                    @php($ada = true)
                     @if($pengajuan->statusPengajuan_id == 2)
-                      <a class="dropdown-item preview-item">
-                        {{-- <div class="preview-thumbnail">
-                          <div class="preview-icon bg-success">
-                            <i class="ti-info-alt mx-0"></i>
-                          </div>
-                        </div> --}}
+                      <a class="dropdown-item preview-item" href="{{ route('pengajuanList') }}">
                         <div class="preview-item-content">
                           <h6 class="preview-subject fw-bold">Pengajuan Diterima</h6>
                           <p>
@@ -129,12 +131,7 @@
                       </a>
                       <hr class="dropdown-divider">
                       @elseif($pengajuan->statusPengajuan_id == 3)
-                        <a class="dropdown-item preview-item">
-                          {{-- <div class="preview-thumbnail">
-                            <div class="preview-icon bg-success">
-                              <i class="ti-info-alt mx-0"></i>
-                            </div>
-                          </div> --}}
+                        <a class="dropdown-item preview-item" href="{{ route('pengajuanList') }}">
                           <div class="preview-item-content">
                             <h6 class="preview-subject fw-bold">Pengajuan Ditolak</h6>
                             <p>
@@ -145,12 +142,7 @@
                         </a>
                         <hr class="dropdown-divider">
                       @elseif($pengajuan->statusPengajuan_id == 4)
-                        <a class="dropdown-item preview-item">
-                          {{-- <div class="preview-thumbnail">
-                            <div class="preview-icon bg-success">
-                              <i class="ti-info-alt mx-0"></i>
-                            </div>
-                          </div> --}}
+                        <a class="dropdown-item preview-item" href="{{ route('pengajuanList') }}">
                           <div class="preview-item-content">
                             <h6 class="preview-subject fw-bold">Pengajuan Selesai</h6>
                             <p>
@@ -163,59 +155,29 @@
                     @endif
                   @endif
                 @endforeach
-              
-              @else
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-success">
-                      <i class="ti-info-alt mx-0"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                    <p class="font-weight-light small-text mb-0 text-muted">
-                      Just now
-                    </p>
-                  </div>
-                </a>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-warning">
-                      <i class="ti-settings mx-0"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <h6 class="preview-subject font-weight-normal">Settings</h6>
-                    <p class="font-weight-light small-text mb-0 text-muted">
-                      Private message
-                    </p>
-                  </div>
-                </a>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-info">
-                      <i class="ti-user mx-0"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                    <p class="font-weight-light small-text mb-0 text-muted">
-                      2 days ago
-                    </p>
-                  </div>
-                </a>
+                
               @endif
+                
+              @if($ada == false)
+                  <a class="dropdown-item preview-item">
+                    <div class="preview-item-content">
+                      <h6 class="preview-subject fw-bold">Tidak Ada notifikasi</h6>
+                      <p>
+                        Tidak ada notifikasi baru saat ini.
+                      </p>
+                    </div>
+                  </a>
+                  <hr class="dropdown-divider">
+              @endif
+
+            
             </div>
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="{{ asset('images/faces/face28.jpg') }}" alt="profile"/>
+              <img src="{{ asset('images/profile.png') }}" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button class="dropdown-item" type="submit">

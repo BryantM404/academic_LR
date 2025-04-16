@@ -171,7 +171,7 @@ class UserController extends Controller
     }
 
     public function dashboard()
-    {
+    {        
         return view('layouts.starter')
             ->with('pengajuans', Pengajuan::all());
     }

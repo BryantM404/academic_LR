@@ -31,13 +31,13 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/superadmin/create', [UserController::class, 'store'])->name('userStore');
         Route::get('/superadmin/create/forms/{role}/{user}', [UserController::class, 'forms'])->name('userCreateForms');
         Route::post('/superadmin/create/forms/{role}/{user}', [KaprodiController::class, 'store'])->name('kaprodiStore');
-
+        
         Route::post('/superadmin/create/forms/tataUsaha/{user}', [TataUsahaController::class, 'store'])->name('tataUsahaStore');
         Route::post('/superadmin/create/forms/mahasiswa/{user}', [MahasiswaController::class, 'store'])->name('mahasiswaStore');
         Route::delete('/superadmin/delete/{id}', [UserController::class, 'destroy'])->name('userDelete');
         Route::get('/superadmin/edit/{id}', [UserController::class, 'edit'])->name('userEdit');
         Route::put('/superadmin/edit/{id}', [UserController::class, 'update'])->name('userUpdate');
-
+        
         Route::get('/superadmin/create/forms/{role}/{user}', [UserController::class, 'editForms'])->name('userEditForms');
         Route::put('/superadmin/create/forms/kaprodi/{user}', [KaprodiController::class, 'updateStore'])->name('kaprodiEditStore');
         Route::put('/superadmin/create/forms/tataUsaha/{user}', [TataUsahaController::class, 'updateStore'])->name('tataUsahaEditStore');
