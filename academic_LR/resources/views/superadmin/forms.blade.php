@@ -87,9 +87,8 @@
                         <div class="form-group">
                             <label for="prodi_id" class="">Program Studi</label>
                             <select name="prodi_id" class="form-control" required>
-                              <option value="" @readonly(true) readonly>-- Pilih Program Studi --</option>
+                              <option value="" disabled>-- Pilih Program Studi --</option>
                               @foreach($prodis as $prodi)
-                                
                                   <option value="{{ $prodi->id }}">{{ $prodi->nama }}</option>
                                 
                               @endforeach

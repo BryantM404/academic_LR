@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 
-
 class UserController extends Controller
 {
     /**
@@ -192,8 +191,12 @@ class UserController extends Controller
 
     public function dashboard()
     {
+        $roles = Role::with('roleUser')->get();
+
         return view('layouts.starter')
-            ->with('pengajuans', Pengajuan::all());
+            ->with('users', User::all())
+            ->with('pengajuans', Pengajuan::all())
+            ->with('roles', $roles);
     }
 
 

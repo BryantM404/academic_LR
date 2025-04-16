@@ -8,15 +8,16 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TataUsahaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexTU()
     {
-        //
+        
     }
 
     /**
@@ -32,17 +33,24 @@ class TataUsahaController extends Controller
      */
     public function store(Request $request, $user)
     {
+
+        Log::info('📥 Menerima request untuk insert Tata Usaha:', $request->all());
+
         $validatedData = validator($request->all(),[
             'nama' => 'required|string|max:45',
             'prodi_id' => 'required|exists:prodi,id',
             'user_id' => 'required|exists:user,id',
         ])->validate();
 
+        Log::info('📥 Validasi data berhasil:', $validatedData);
+
         DB::statement("CALL SPInsertTataUsaha(?, ?, ?)", [
             $validatedData['nama'],
             $validatedData['prodi_id'],
             $validatedData['user_id']
         ]);
+
+        Log::info('📥 Data Tata Usaha berhasil disimpan:', $validatedData);
 
         return redirect()->route('userList');
     }

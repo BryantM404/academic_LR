@@ -16,9 +16,9 @@
           <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h2 class="card-title">Memodifikasi Data User Aplikasi Fufu</h2>
+                <h2 class="card-title text-primary">Memodifikasi Data User Aplikasi Lettly</h2>
                 <p class="card-description">
-                  Catatan: Username diisi dengan Nomor Induk Kependudukan (bagi Kaprodi atau TU) <br>
+                  Catatan: Username diisi dengan Nomor Induk Kependudukan (bagi Kaprodi atau TU) 
                   atau Nomor Registrasi Peserta (bagi mahasiswa)
                 </p>
                 <form method="POST" action="{{ route('userUpdate', [$users->id]) }}" class="forms-sample" >
